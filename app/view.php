@@ -1,19 +1,28 @@
 <!DOCTYPE html>
+<html>
   <head>
     <meta charset="utf-8" />
     <title> Kalkulator Kredytowy</title>
   </head>
   <body>
-    <h4> To jest przykład prostego kalkulator kredytowego</h6>
-    <form action="<?php print(_APP_URL);?>/app/kontroler.php" method="post">
-          <label for="Kwota Kredytu">Kwota Kredytu </label>
-          <input id="id_amount" type="text" name = "amount" <?php if (isset($result)) echo "value=".$amount;?>><br/>
-          <br/>
-          <label for="Okres spłaty">Okres spłaty</label>
-          <input id="id_period" type="text" name ="period" <?php if (isset($period)) echo "value=".$period;?>><br/>
-          <label for="Oprocentowanie">Oprocentowanie </label>
-          <input id="id_rate" type="text" name="rate" <?php if (isset($rate)) echo "value=".$rate;?>><br/>
-          <input type="submit" value="Count">
+    <div>
+      <a href="<?php print(_APP_ROOT); ?>/app/different_protected.php">  Next protected site</a>
+      <a href="<?php print(_APP_ROOT); ?>/app/security/logout.php"> Logout</a>
+    </div>
+
+    <div>
+      <form action="<?php print(_APP_URL);?>/app/kontroler.php" method="post">
+          <legend> Kalkulator Kredytowy </legend>
+          <fieldset>
+            <label for="Kwota Kredytu">Kwota Kredytu </label>
+            <input id="id_amount" type="text" name = "amount" <?php if (isset($amount)) echo "value=".$amount;?>><br/>
+            <br/>
+            <label for="Okres spłaty">Okres spłaty</label>
+            <input id="id_period" type="text" name ="period" <?php if (isset($period)) echo "value=".$period;?>><br/>
+            <label for="Oprocentowanie">Oprocentowanie </label>
+            <input id="id_rate" type="text" name="rate" <?php if (isset($rate)) echo "value=".$rate;?>><br/>
+            </fieldset>
+            <input type="submit" value="Count">
     </form>
     <?php
     //wyświeltenie listy błędów, jeśli istnieją
@@ -36,6 +45,6 @@
 <?php echo 'Wysokośc raty: '.$result; ?>
 </div>
 <?php } ?>
-
+</div>
 </body>
 </html>

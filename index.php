@@ -1,4 +1,4 @@
 <?php
 require_once dirname(__FILE__).'/config.php';
-include _ROOT_PATH.'/app/view.php';
+include _ROOT_PATH.'/app/kontroler.php';
 ?>

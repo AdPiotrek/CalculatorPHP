@@ -1,45 +1,52 @@
 <?php
 require_once dirname(__FILE__).'/../config.php';
+include _ROOT_PATH.'/app/security/check.php';
 
-$messages = [];
-$amount = $_REQUEST['amount'];
-$period =$_REQUEST['period'];
-$rate = $_REQUEST['rate'];
-
-function valdiate($amount,$period,$rate,$messages){
-  if(!(isset($amount) && isset($period) && isset($rate))){
-    $messages[]="Błędne wywołanie aplikacji, brak jednego z argumentów";
-    return $messages;
-  }
-  if( $amount == "" || $period =="" || $rate ==""){
-    if( $amount == ""){
-      $messages [] = "Amount was not insert";
-    }
-    if( $period ==""){
-      $messages[] = "Period was not set";
-    }
-    if( $rate ==""){
-      $messages[] = "Rate was not set";
-    }
-    return $messages;
-  }
-  if( !(is_numeric($amount)&&is_numeric($period)&&is_numeric($rate))){
-    $messages[] = "Jedna z wartośći nie jest liczbą";
-    return $messages;
-    }
-  return $messages;
+function getParams(&$amount,&$period,&$rate)
+{
+  $amount = isset($_REQUEST['amount'])? $_REQUEST['amount'] : null;
+  $period = isset($_REQUEST['period'])? $_REQUEST['period'] : null;
+  $rate = isset($_REQUEST['rate'])? $_REQUEST['rate'] : null;
 }
-function countInstallment($amount,$period,$rate,$messages){
-	if (count ( $messages ) == 0) {
+
+function getValidate(&$amount,&$period,&$rate,&$messages)
+{
+  if( ! (isset($amount) && isset($period) && isset($rate))){
+    return false;  
+  }
+  if($amount =='') $messages []= "Nie podano kwoty kredytu";
+  if($period =='') $messages []= 'Nie podano okresu';
+  if($rate == '')  $messages []= "Nie podano oprocentowania";
+
+  if(count($messages)!=0) return false;
+
+  if(!is_numeric($amount)) $messages[] = "Wartość kredytu nie jest liczbą";
+  if(!is_numeric($period)) $messages[] = "Okres nie jest liczbą";
+  if(!is_numeric($rate)) $messages []= "Oprocentowanie nie jest liczbą";
+
+  if(count($messages)!=0) return false;
+  else return true;
+}
+
+function countInstallment($amount,$period,$rate,&$result){
+    $amount =intval($amount);
+    $period = intval($period);
+    $rate = intval($rate);
 		$rate/=100;
     $period*=12;
 		$q= 1+($rate/12);
 		$result = ($amount * pow($q,$period))*(($q-1)/(pow($q, $period)-1));
-		return $result;
-  }
 }
-$messages = valdiate($amount,$rate,$period,$messages);
-$result = countInstallment($amount,$period,$rate,$messages);
 
-include 'view.php';
+$amount = null;
+$period =null;
+$rate = null;
+$result = null;
+$messages = array();
+
+getParams($amount,$period,$rate);
+if(getValidate($amount,$period,$rate,$messages)){
+countInstallment($amount,$period,$rate,$result);
+}
+include _ROOT_PATH.'/app/view.php';
 ?>
