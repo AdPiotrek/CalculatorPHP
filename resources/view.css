@@ -1,0 +1,26 @@
+.header
+{
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: "Times New Roman", "Times" , serif;
+}
+.content
+{
+  padding: 10px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  background-color: lightblue;
+}
+.errors
+{
+  margin: 20px;
+  padding: 10px 10px 10px 30px;
+  border-radius: 5px;
+  background-color: #f90;
+  width:300px;
+}
+.result
+{
+  background-color: #aaa;
+}
